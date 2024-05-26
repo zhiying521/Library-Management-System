@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +10,7 @@ class LibraryUser extends Model
     use HasFactory;
     protected $fillable=[
         'name',
+        'name_number',
         'password',
         'email',
         'is_admin',

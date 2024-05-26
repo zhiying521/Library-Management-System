@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('library_users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_number');
             $table->string('password');
             $table->string('email');
-            $table->timestamps('verified_at');
+            $table->timestamp('verified_at');
             $table->string('is_admin')->default('0');
             $table->timestamps();
         });

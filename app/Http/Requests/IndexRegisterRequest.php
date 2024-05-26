@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,6 +16,7 @@ class IndexRegisterRequest extends FormRequest
     {
         return [
             'name'=>'required|string|unique:library_users',
+            'name_number'=>'required|string|unique:library_users|regex:/^[1][0-9]+{6,12}$/',
             'password'=>'required|string|min:6|confirmed',
             'email'=>'required|email|unique:library_users',
         ];
