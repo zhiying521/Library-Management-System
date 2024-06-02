@@ -1,8 +1,8 @@
 <?php
 
-use app\Http\Controllers\Library\AdminController;
-use app\Http\Controllers\Library\IndexController;
-use app\Http\Controllers\Library\UserController;
+use App\Http\Controllers\Library\AdminController;
+use App\Http\Controllers\Library\IndexController;
+use App\Http\Controllers\Library\UserController;
 use Illuminate\Support\Facades\Route;
 
 /** 登录注册 */

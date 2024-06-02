@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,9 +14,9 @@ class UserPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>'required|email',
-            'old_password'=>'required|string|min:6',
-            'new_password'=>'required|string|min:6|confirmed',
+            'email'=>'required|email|max:255',
+            'old_password'=>'required|string|min:6|max:255',
+            'new_password'=>'required|string|min:6|confirmed|max:255',
         ];
     }
     public function messages():array

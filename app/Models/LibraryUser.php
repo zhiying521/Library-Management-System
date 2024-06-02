@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,5 +26,11 @@ class LibraryUser extends Model
         'verified_at'=>'datetime',
         'password'=>'hashed'
     ];
-
+    /**
+     * @return string
+     */
+    public static function getModelName(): string
+    {
+        return trans('学生');
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Business;
+namespace App\Business;
 
 use App\Models\BorrowBook;
 use App\Models\LibraryBook;
@@ -17,7 +17,7 @@ class UserBusiness
      */
     public function userRegister(Request $request): array
     {
-        $user = LibraryUser::query()->create($request->all());
+        $user = LibraryUser::query()->create($request->only('name_number', 'name', 'password', 'email'));
         if ($user) {
             return ([
                 'mes' => '注册成功',
@@ -30,16 +30,16 @@ class UserBusiness
 
     /**
      * 用户登录
-     * @param Request $request
+     * @param string $request
      * @param $user
      * @return bool
      */
-    public function userLogin(Request $request, $user): bool
+    public function userLogin(string $password, $user): bool
     {
         if (!$user) {
             return false;
         }
-        if (Hash::check($request->password, $user->password)) {
+        if (Hash::check($password, $user->password)) {
             return true;
         }
         return false;
@@ -47,11 +47,12 @@ class UserBusiness
 
     /**
      * 用户查询图书
-     * @param string $searchTerm
+     * @param Request $request
      * @return array|string[]
      */
-    public function bookSearch( string $searchTerm): array
+    public function bookSearch(Request $request): array
     {
+        $searchTerm = $request->input('query');
         // 如果没有搜索关键词，返回空结果
         if (empty($searchTerm)) {
             return
@@ -78,7 +79,8 @@ class UserBusiness
      */
     public function updatePassword(string $email, string $old_password, string $new_password): bool
     {
-        $user = LibraryUser::query()->where('email', $email)->first();
+
+        $user = LibraryUser::query()->where('email', $email)->firstOrFail();
         if (Hash::check($old_password, $user->password)) {
             $user->update(['password' => $new_password]);
             return true;
@@ -89,21 +91,21 @@ class UserBusiness
 
     /**
      * 书籍借阅信息查询
-     * @param string $searchTerm
+     * @param Request $request
      * @return array|string[]
      */
-    public function borrow(string $searchTerm): array
+    public function borrow(Request $request): array
     {
+        $searchTerm = $request->input('query');
         // 如果没有搜索关键词，返回空结果
         if (empty($searchTerm)) {
             return
                 [
-                    'mes' => '请输入借阅编号或者书籍编号',
+                    'mes' => '请输入借阅编号',
                 ];
         }
         // 使用 Eloquent ORM 进行搜索
         $borrow_information = BorrowBook::query()->where('name_number', 'LIKE', '%' . $searchTerm . '%')
-            ->orWhere('book_number', 'LIKE', '%' . $searchTerm . '%')
             ->paginate(6); // 分页显示搜索结果
         return [
             'date' => $borrow_information,

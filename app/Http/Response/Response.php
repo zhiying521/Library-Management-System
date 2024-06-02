@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Response;
+namespace App\Http\Response;
 
 class Response extends \Illuminate\Http\Response
 {

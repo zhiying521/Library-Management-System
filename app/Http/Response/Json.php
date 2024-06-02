@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Response;
+namespace App\Http\Response;
 
 use App\Libs\TranslateTag;
 use ArrayAccess;

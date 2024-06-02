@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Http\Controllers\Library;
+namespace App\Http\Controllers\Library;
 
-use app\Business\AdminBusiness;
+use App\Business\AdminBusiness;
 use App\Http\Controllers\Controller;
 use app\Http\Requests\AdminAddBookRequest;
 use App\Http\Requests\AdminBorrowBookRequest;
@@ -32,7 +32,7 @@ class AdminController extends Controller
      *借阅书籍
      * @param AdminBorrowBookRequest $request
      * @param AdminBusiness $business
-     * @return void
+     * @return Response
      */
     public function borrowBook(AdminBorrowBookRequest $request, AdminBusiness $business): Response
     {

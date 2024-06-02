@@ -1,9 +1,10 @@
 <?php
 
-namespace app\Business;
+namespace App\Business;
 
-use app\Models\BorrowBook;
-use app\Models\LibraryBook;
+use App\Models\BorrowBook;
+use App\Models\LibraryBook;
+use App\Models\LibraryUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -17,21 +18,20 @@ class AdminBusiness
      */
     public function borrow(string $name_number, string $book_number): bool
     {
-        BorrowBook::query()->create([
-            'name_number' => $name_number,
-            'book_number' => $book_number,
-            'borrow_date' => Carbon::now(),
-            'due_date' => Carbon::now()->addDays(15),
-            'return_date' => null,
-        ]);
-        /** @var int $number */
-        $number = LibraryBook::query()->where('book_number', $book_number)->firstOrFail();
-        if ($number <= 0) {
-            LibraryBook::query()->where('book_number', $book_number)->delete();
-            LibraryBook::query()->where('book_number', $book_number)->update(['book_status', '0']);
+        LibraryUser::query()->where('name_number', $name_number)->firstOrFail();
+        $libraryBook = LibraryBook::query()->where('book_number', $book_number)->firstOrFail();
+        if ($libraryBook->book_num <= 0) {
+            LibraryBook::query()->where('book_number', $book_number)->update(['book_status'=>'0']);
             return false;
         } else {
-            LibraryBook::query()->where('book_number', $book_number)->update(['book_number' => $number-1]);
+            LibraryBook::query()->where('book_number', $book_number)->update(['book_num'=>$libraryBook->book_num -1]);
+            BorrowBook::query()->create([
+                'name_number' => $name_number,
+                'book_number' => $book_number,
+                'borrow_date' => Carbon::now(),
+                'due_date' => Carbon::now()->addDays(15),
+                'return_date' => null,
+            ]);
             return true;
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,8 +9,8 @@ class AdminBorrowBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_number' => 'required|string|regex:/^\d+$/',
-            'book_number' => 'required|string|regex:/^\d+$/',
+            'name_number' => 'required|string|regex:/^[0-9]{6,15}$/|max:255',
+            'book_number' => 'required|string|max:255',
         ];
     }
 

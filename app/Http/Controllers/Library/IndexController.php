@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Http\Controllers\Library;
+namespace App\Http\Controllers\Library;
 
-use app\Business\UserBusiness;
+use App\Business\UserBusiness;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexLoginRequest;
 use App\Http\Requests\indexRegisterRequest;
@@ -36,7 +36,7 @@ class IndexController extends Controller
     public function login(IndexLoginRequest $request, UserBusiness $business): Response
     {
         $user = LibraryUser::query()->where('name', $request->name)->firstOrFail();
-        if ($business->userLogin($request, $user)) {
+        if ($business->userLogin($request->password, $user)) {
             if ($user->is_admin == '1') {
                 return new Success([
                     'message' => '跳转到管理员页面'

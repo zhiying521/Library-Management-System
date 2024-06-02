@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,7 +9,7 @@ class UserSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'query' => 'required|string',
+            'query' => 'required|string|max:255',
         ];
     }
     public function messages():array

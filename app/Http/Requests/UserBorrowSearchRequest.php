@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,7 +12,7 @@ class UserBorrowSearchRequest extends FormRequest
             'query' => 'required|string|regex:/^\d+$/',
         ];
     }
-    public function messages()
+    public function messages():array
     {
         return [
             'query.required' => '输入的不能为空',

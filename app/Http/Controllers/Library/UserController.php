@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Http\Controllers\Library;
+namespace App\Http\Controllers\Library;
 
-use app\Business\UserBusiness;
+use App\Business\UserBusiness;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserBorrowSearchRequest;
 use App\Http\Requests\UserPasswordRequest;

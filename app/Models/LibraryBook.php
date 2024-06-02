@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,4 +21,11 @@ class LibraryBook extends Model
         'deleted_at',
     ];
 
+    /**
+     * @return string
+     */
+    public static function getModelName(): string
+    {
+        return trans('书籍');
+    }
 }

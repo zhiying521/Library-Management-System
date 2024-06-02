@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Libs;
+namespace App\Libs;
 
 class TranslateTag
 {
