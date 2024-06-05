@@ -17,28 +17,20 @@ class UserBusiness
      */
     public function userRegister(Request $request): array
     {
-        $user = LibraryUser::query()->create($request->only('name_number', 'name', 'password', 'email'));
-        if ($user) {
-            return ([
-                'mes' => '注册成功',
-            ]);
-        }
+        LibraryUser::query()->create($request->only(['name_number', 'name', 'password', 'email']));
         return ([
-            'mes' => '注册失败',
+            'mes' => '注册成功',
         ]);
     }
 
     /**
      * 用户登录
-     * @param string $request
-     * @param $user
+     * @param string $password
+     * @param LibraryUser $user
      * @return bool
      */
-    public function userLogin(string $password, $user): bool
+    public function userLogin(string $password,LibraryUser $user): bool
     {
-        if (!$user) {
-            return false;
-        }
         if (Hash::check($password, $user->password)) {
             return true;
         }

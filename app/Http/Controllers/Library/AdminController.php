@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Library;
 
 use App\Business\AdminBusiness;
 use App\Http\Controllers\Controller;
-use app\Http\Requests\AdminAddBookRequest;
+use App\Http\Requests\AdminAddBookRequest;
 use App\Http\Requests\AdminBorrowBookRequest;
-use app\Http\Requests\AdminDeleteRequest;
-use app\Http\Requests\AdminReturnBookRequest;
-use app\Http\Requests\AdminSearchBookRequest;
-use app\Http\Requests\AdminUpdateRequest;
-use app\Http\Response\Error;
-use app\Http\Response\Response;
-use app\Http\Response\Success;
-use app\Models\BorrowBook;
+use App\Http\Requests\AdminDeleteRequest;
+use App\Http\Requests\AdminReturnBookRequest;
+use App\Http\Requests\AdminSearchBookRequest;
+use App\Http\Requests\AdminUpdateRequest;
+use App\Http\Response\Error;
+use App\Http\Response\Response;
+use App\Http\Response\Success;
+use App\Models\BorrowBook;
 use Illuminate\Contracts\View\View;
 
 class AdminController extends Controller

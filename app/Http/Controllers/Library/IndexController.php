@@ -36,6 +36,7 @@ class IndexController extends Controller
     public function login(IndexLoginRequest $request, UserBusiness $business): Response
     {
         $user = LibraryUser::query()->where('name', $request->name)->firstOrFail();
+        /** @var LibraryUser $user */
         if ($business->userLogin($request->password, $user)) {
             if ($user->is_admin == '1') {
                 return new Success([

@@ -10,7 +10,7 @@ class AdminBorrowBookRequest extends FormRequest
     {
         return [
             'name_number' => 'required|string|regex:/^[0-9]{6,15}$/|max:255',
-            'book_number' => 'required|string|max:255',
+            'book_number' => 'required|string|regex:/^[0-9]{6,15}$/|max:255',
         ];
     }
 
