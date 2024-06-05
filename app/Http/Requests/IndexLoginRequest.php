@@ -15,8 +15,8 @@ class IndexLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|string',
-            'password'=>'required|string|min:6',
+            'name'=>'required|string|max:255',
+            'password'=>'required|string|min:6|max:255',
         ];
     }
     public function messages():array

@@ -20,4 +20,12 @@ class LibraryBook extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    /**
+     * @return string
+     */
+    public static function getModelName(): string
+    {
+        return trans('书籍');
+    }
 }

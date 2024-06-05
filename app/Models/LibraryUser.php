@@ -10,6 +10,7 @@ class LibraryUser extends Model
     use HasFactory;
     protected $fillable=[
         'name',
+        'name_number',
         'password',
         'email',
         'is_admin',
@@ -25,5 +26,11 @@ class LibraryUser extends Model
         'verified_at'=>'datetime',
         'password'=>'hashed'
     ];
-
+    /**
+     * @return string
+     */
+    public static function getModelName(): string
+    {
+        return trans('学生');
+    }
 }
