@@ -34,7 +34,13 @@ class UserController extends Controller
      */
     public function search(UserSearchRequest $request, UserBusiness $business): Response
     {
-        return new Success($business->bookSearch($request));
+        if($business->bookSearch($request))
+        {
+            return new Success(
+                ['message'=>'搜素成功']
+            );
+        }
+        return new Error(trans('搜索失败,请输入书名或作者'));
     }
 
     /**
@@ -60,6 +66,12 @@ class UserController extends Controller
      */
     public function borrowSearch(UserBorrowSearchRequest $request, UserBusiness $business): Response
     {
-        return new Success($business->borrow($request));
+        if($business->borrow($request))
+        {
+            return new Success(
+                ['message'=>'搜索成功']
+            );
+        }
+        return new Error(trans('搜索失败,请输入借阅编号'));
     }
 }

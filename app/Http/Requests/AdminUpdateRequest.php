@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +13,7 @@ class AdminUpdateRequest extends FormRequest
             'book_name' => 'required|string',
             'book_author' => 'required|string',
             'book_press' => 'required|string',
-            'book_price' => 'required|string|regex:/^\d+$/',
+            'book_price' => 'required|string|regex:/^[1-9]\d*\.?\d*)|(0\.\d*[1-9]$/',
             'book_local' => 'required|string',
             'book_num' => 'required|string|regex:/^\d+$/',
             'book_status' => 'required|string',

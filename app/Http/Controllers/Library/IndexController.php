@@ -21,9 +21,12 @@ class IndexController extends Controller
      */
     public function register(IndexRegisterRequest $request, UserBusiness $business): Response
     {
-        return new Success(
-            $business->userRegister($request)
-        );
+        if($business->userRegister($request)){
+            return new Success([
+                'message' => '注册成功'
+            ]);
+        }
+        return new Error(trans('注册失败'));
     }
 
     /**

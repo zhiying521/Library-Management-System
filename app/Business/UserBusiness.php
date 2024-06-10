@@ -13,14 +13,12 @@ class UserBusiness
     /**
      * 用户注册
      * @param Request $request
-     * @return string[]
+     * @return bool
      */
-    public function userRegister(Request $request): array
+    public function userRegister(Request $request): bool
     {
         LibraryUser::query()->create($request->only(['name_number', 'name', 'password', 'email']));
-        return ([
-            'mes' => '注册成功',
-        ]);
+        return true;
     }
 
     /**
@@ -40,26 +38,20 @@ class UserBusiness
     /**
      * 用户查询图书
      * @param Request $request
-     * @return array|string[]
+     * @return bool
      */
-    public function bookSearch(Request $request): array
+    public function bookSearch(Request $request):bool
     {
         $searchTerm = $request->input('query');
         // 如果没有搜索关键词，返回空结果
         if (empty($searchTerm)) {
-            return
-                [
-                    'mes' => '请输入书名或作者',
-                ];
+            return false;
         }
         // 使用 Eloquent ORM 进行搜索
-        $books = LibraryBook::query()->where('book_name', 'LIKE', '%' . $searchTerm . '%')
+         LibraryBook::query()->where('book_name', 'LIKE', '%' . $searchTerm . '%')
             ->orWhere('book_author', 'LIKE', '%' . $searchTerm . '%')
             ->paginate(6); // 分页显示搜索结果
-        return [
-            'books' => $books,
-            'mes' => '搜索成功',
-        ];
+        return true;
     }
 
     /**
@@ -84,24 +76,18 @@ class UserBusiness
     /**
      * 书籍借阅信息查询
      * @param Request $request
-     * @return array|string[]
+     * @return bool
      */
-    public function borrow(Request $request): array
+    public function borrow(Request $request):bool
     {
         $searchTerm = $request->input('query');
         // 如果没有搜索关键词，返回空结果
         if (empty($searchTerm)) {
-            return
-                [
-                    'mes' => '请输入借阅编号',
-                ];
+               return false;
         }
         // 使用 Eloquent ORM 进行搜索
-        $borrow_information = BorrowBook::query()->where('name_number', 'LIKE', '%' . $searchTerm . '%')
+       BorrowBook::query()->where('name_number', 'LIKE', '%' . $searchTerm . '%')
             ->paginate(6); // 分页显示搜索结果
-        return [
-            'date' => $borrow_information,
-            'mes' => '搜索成功',
-        ];
+        return true;
     }
 }

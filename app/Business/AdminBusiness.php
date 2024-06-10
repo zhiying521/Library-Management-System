@@ -20,12 +20,12 @@ class AdminBusiness
     {
         LibraryUser::query()->where('name_number', $name_number)->firstOrFail();
         $libraryBook = LibraryBook::query()->where('book_number', $book_number)->firstOrFail();
-        if ($libraryBook->book_num <= 0) {
+        if ($libraryBook->book_num <= 0 or $libraryBook->book_status == '0') {
             LibraryBook::query()->where('book_number', $book_number)->update(['book_status' => '0']);
             return false;
         } else {
             LibraryBook::query()->where('book_number', $book_number)->update(['book_num' => $libraryBook->book_num - 1]);
-            BorrowBook::query()->create([
+            BorrowBook::query()->insert([
                 'name_number' => $name_number,
                 'book_number' => $book_number,
                 'borrow_date' => Carbon::now(),
@@ -45,77 +45,83 @@ class AdminBusiness
     public function return(string $name_number, string $book_number): bool
     {
         $borrow_book = BorrowBook::query()->where('name_number', $name_number)->where('book_number', $book_number)->firstOrFail();
-        if ($borrow_book->return_status == 0)
-          {
-              return $this->returnBook($borrow_book->date,$borrow_book->due_date,$borrow_book,$book_number);
-          }
-        else{
-            return $this->returnBook($borrow_book->due_date,$borrow_book->return_date,$borrow_book,$book_number);
+        if ($borrow_book->return_status == 0) {
+            return $this->returnBook($borrow_book->date, $borrow_book->due_date, $borrow_book, $book_number);
+        } else {
+            return $this->returnBook($borrow_book->due_date, $borrow_book->return_date, $borrow_book, $book_number);
         }
     }
 
     /**
      * 搜索书籍
-     * @param string $searchTerm
-     * @return array|string[]
+     * @param Request $request
+     * @return bool
      */
-    public function search(Request $request): array
+    public function search(Request $request): bool
     {
-        $searchTerm=$request->input('query');
+        $searchTerm = $request->input('query');
         // 如果没有搜索关键词，返回空结果
         if (empty($searchTerm)) {
-            return
-                [
-                    'mes' => '请输入书名或作者',
-                ];
+            return false;
         }
         // 使用 Eloquent ORM 进行搜索
-        $books = LibraryBook::query()->where('book_name', 'LIKE', '%' . $searchTerm . '%')
+        LibraryBook::query()->where('book_name', 'LIKE', '%' . $searchTerm . '%')
             ->orWhere('book_author', 'LIKE', '%' . $searchTerm . '%')
             ->paginate(6); // 分页显示搜索结果
-        return [
-            'books' => $books,
-            'mes' => '搜索成功',
-        ];
+        return true;
     }
 
     /**
      * 添加书籍
      * @param Request $request
-     * @return string[]
+     * @return bool
      */
-    public function add(Request $request): array
+    public function add(Request $request): bool
     {
-        LibraryBook::query()->create($request->all());
-        return [
-            'mes' => '添加成功',
-        ];
+        LibraryBook::query()->create(
+            $request->only(
+                ['book_number', 'book_name', 'book_author', 'book_press',
+                    'book_price', 'book_local', 'book_num', 'book_status']
+            ));
+        return true;
     }
 
     /**
      * 修改书籍
      * @param Request $request
-     * @return string[]
+     * @return bool
      */
-    public function update(Request $request): array
+    public function update(Request $request): bool
     {
-        LibraryBook::query()->where('book_number', $request->book_number)->update($request->all());
-        return [
-            'mes' => '修改成功',
-        ];
+        LibraryBook::query()->where('book_number', $request->book_number)->update(
+            [
+                'book_number' => $request->book_number,
+                'book_name' => $request->book_name,
+                'book_author' => $request->book_author,
+                'book_press' => $request->booK_press,
+                'book_price' => $request->boook_price,
+                'book_local' => $request->book_local,
+                'book_num' => $request->book_num,
+                'book_status' => $request->book_status,
+            ]);
+        return true;
     }
 
     /**
      * 删除书籍
      * @param Request $request
-     * @return string[]
+     * @return bool
      */
-    public function delete(Request $request): array
+    public function delete(Request $request): bool
     {
-        LibraryBook::query()->where('book_number', $request->book_number)->delete();
-        return [
-            'mes' => '删除成功',
-        ];
+        $borrowBook = BorrowBook::query()->where('book_number', $request->book_number)->firstOrFail();
+        if ($borrowBook->return_date != null) {
+            $libararyBook = LibraryBook::query()->where('book_number', $request->book_number)->delete();
+            if ($libararyBook->delete_at != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -134,9 +140,8 @@ class AdminBusiness
             $book->update(['book_number' => $book->book_number + 1]);
             $borrow_book->delete();
             return true;
-        }
-        else{
-            $borrow_book->update(['return_date'=>Carbon::now()->addDays(14)->toDateString(),'return_status'=>rand(1,9)]);
+        } else {
+            $borrow_book->update(['return_date' => Carbon::now()->addDays(14)->toDateString(), 'return_status' => rand(1, 9)]);
             return false;
         }
     }

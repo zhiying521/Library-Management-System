@@ -68,7 +68,13 @@ class AdminController extends Controller
      */
     public function searchBook(AdminSearchBookRequest $request, AdminBusiness $business): Response
     {
-        return new Success($business->search($request));
+        if ($business->search($request)) {
+            return new Success([
+                    'message' => '搜素成功',
+                ]
+            );
+        }
+        return new Error(trans('请输入书名或者作者'));
     }
 
     /**
@@ -77,9 +83,14 @@ class AdminController extends Controller
      * @param AdminBusiness $business
      * @return Response
      */
-    public function addBook(AdminAddBookRequest $request, AdminBusiness $business):Response
+    public function addBook(AdminAddBookRequest $request, AdminBusiness $business): Response
     {
-        return new Success($business->add($request));
+        if ($business->add($request)) {
+            return new Success([
+                'message' => '添加书籍成功'
+            ]);
+        }
+        return new Error(trans('添加失败！'));
     }
 
     /**
@@ -88,12 +99,29 @@ class AdminController extends Controller
      * @param AdminBusiness $business
      * @return Response
      */
-    public function updateBook(AdminUpdateRequest $request,AdminBusiness $business):Response
+    public function updateBook(AdminUpdateRequest $request, AdminBusiness $business): Response
     {
-        return new Success($business->update($request));
+        if ($business->update($request)) {
+            return new Success([
+                'message' => '书籍更新成功',
+            ]);
+        }
+        return new Error(trans('书记更新失败'));
     }
-    public function deleteBook(AdminDeleteRequest $request,AdminBusiness $business):Response
+
+    /**
+     * 删除书籍
+     * @param AdminDeleteRequest $request
+     * @param AdminBusiness $business
+     * @return Response
+     */
+    public function deleteBook(AdminDeleteRequest $request, AdminBusiness $business): Response
     {
-        return new Success($business->delete($request));
+        if ($business->delete($request)) {
+            return new Success([
+                'message' => '书籍删除成功',
+            ]);
+        }
+        return new Error(trans('书籍删除失败'));
     }
 }
