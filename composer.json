@@ -12,7 +12,8 @@
         "laravel/tinker": "^2.8",
         "mews/captcha": "^3.3",
         "tymon/jwt-auth": "2.*@rc",
-      "ext-http": "*"
+      "ext-http": "*",
+      "ext-couchbase": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.12",

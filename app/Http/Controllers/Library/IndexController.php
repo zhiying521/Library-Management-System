@@ -10,9 +10,14 @@ use App\Http\Response\Error;
 use App\Http\Response\Response;
 use App\Http\Response\Success;
 use App\Models\LibraryUser;
+use Illuminate\Contracts\View\View;
 
 class IndexController extends Controller
 {
+    public function index():View
+    {
+        return view('library.user_login');
+    }
     /**
      * 用户注册
      * @param indexRegisterRequest $request

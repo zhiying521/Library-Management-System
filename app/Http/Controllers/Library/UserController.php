@@ -10,7 +10,6 @@ use App\Http\Requests\UserSearchRequest;
 use App\Http\Response\Error;
 use App\Http\Response\Response;
 use App\Http\Response\Success;
-use App\Models\BorrowBook;
 use App\Models\LibraryBook;
 use Illuminate\Contracts\View\View;
 

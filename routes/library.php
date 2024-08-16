@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 /** 登录注册 */
 Route::prefix('login')->group(function ($route) {
-    $route->post('register', [IndexController::class, 'register']);
+    $route->get('index', [IndexController::class, 'index']);
+    $route->post('register', [IndexController::class, 'register'])->route('register');
     $route->post('', [IndexController::class, 'login'])->middleware('throttle:10,1');
     $route->post('logout', [IndexController::class, 'logout']);
     $route->post('refresh', [IndexController::class, 'refresh']);

@@ -6,20 +6,6 @@
     <title>图书列表</title>
     <!-- 添加必要的 CSS 和 JS -->
     <style type="text/css">
-        #pull_right {
-            text-align: center;
-        }
-
-        .pull-right {
-            /*float: left!important;*/
-        }
-
-        .pagination {
-            display: inline-block;
-            padding-left: 0;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
 
         .pagination > li {
             display: inline;
@@ -85,9 +71,6 @@
             border-color: #ddd;
         }
 
-        .clear {
-            clear: both;
-        }
     </style>
 </head>
 <body>
